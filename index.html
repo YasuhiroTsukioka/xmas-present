@@ -3,15 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クリスマス・ミッション</title>
+    <title>龍之介専用・クリスマスミッション</title>
     <style>
-        body { text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f0f8ff; padding: 50px 20px; color: #333; }
-        h1 { color: #d42426; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; }
+        /* 背景をクリスマス風（雪の夜）に */
+        body { 
+            text-align: center; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background-color: #013220; /* 深いグリーン */
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px; /* 雪が降っているような背景 */
+            padding: 50px 20px; 
+            color: #333; 
+        }
+        h1 { color: #d42426; font-size: 1.5rem; }
+        h2 { color: #2e7d32; }
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 5px solid #d42426; /* 赤い縁取り */
+            box-shadow: 0 0 20px rgba(255,255,255,0.5); 
+            max-width: 500px; 
+            margin: 0 auto; 
+        }
+        .warning { color: red; font-weight: bold; font-size: 0.8rem; margin-bottom: 20px; }
         .hidden { display: none; }
-        button { background-color: #2e7d32; color: white; border: none; padding: 12px 24px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; margin: 10px; }
-        button:hover { background-color: #1b5e20; }
-        input { padding: 12px; font-size: 1.2rem; border: 2px solid #ccc; border-radius: 5px; width: 80%; max-width: 300px; margin-bottom: 20px; }
+        button { 
+            background-color: #d42426; color: white; border: none; 
+            padding: 12px 24px; font-size: 1.1rem; border-radius: 5px; 
+            cursor: pointer; margin: 10px; width: 80%;
+        }
+        input, textarea { 
+            padding: 12px; font-size: 1.2rem; border: 2px solid #ccc; 
+            border-radius: 5px; width: 80%; max-width: 300px; margin-bottom: 20px; 
+        }
+        textarea { height: 100px; font-size: 1rem; }
     </style>
 </head>
 <body>
@@ -19,24 +45,32 @@
     <div class="card">
         <div id="step1">
             <h1>🎄 クリスマス・ミッション 🎁</h1>
-            <p>パパからのメッセージ：<br><strong>秘密のパスワード</strong>を入力してね</p>
-            <input type="text" id="pw" placeholder="数字4ケタ">
+            <p class="warning">※このサイトは月岡 龍之介のみご利用が可能です！そのほかの人はBANされますwww</p>
+            <p>パパからのメッセージ：<br><strong>パパと龍之介の誕生日</strong>を続けて入力してね！</p>
+            <input type="number" id="pw" placeholder="8ケタの数字">
             <br>
-            <button onclick="checkPassword()">ミッション開始！</button>
+            <button onclick="checkPassword()">認証して進む</button>
         </div>
 
         <div id="step2" class="hidden">
-            <h2>第1問</h2>
-            <p>プログラミングで、同じことを<br>何度もくり返すことを何ていうかな？</p>
-            <button onclick="alert('正解！すごい！'); showStep3()">ループ（Loop）</button>
-            <button onclick="alert('おしい！もう一回考えてみて！')">ジャンプ（Jump）</button>
+            <h2>Q1. 将来なりたい職業は？</h2>
+            <button onclick="nextStep(3)">A：科学者</button>
+            <button onclick="nextStep(3)">B：プログラマー</button>
         </div>
 
         <div id="step3" class="hidden">
+            <h2>最後に将来の目標を教えてね!!</h2>
+            <textarea id="goal" placeholder="ここに目標を書いてね"></textarea>
+            <br>
+            <button onclick="finish()">送信してプレゼントをチェック！</button>
+        </div>
+
+        <div id="step4" class="hidden">
             <h1>🎉 ミッションクリア！</h1>
-            <h2>おめでとう！</h2>
-            <p>プレゼントの場所は・・・</p>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #d42426;">「テレビのうら」</p>
+            <p>※コメントしてくれてありがとう!!<br>このページはパパが作りました。<br>龍之介も作れるから興味があったら作り方勉強しようね!!</p>
+            <hr>
+            <h2>🎁 プレゼントの場所 🎁</h2>
+            <p style="font-size: 1.8rem; font-weight: bold; color: #d42426;">「テレビのうら」</p>
             <p>をのぞいてみてね！</p>
         </div>
     </div>
@@ -44,17 +78,30 @@
     <script>
         function checkPassword() {
             const pw = document.getElementById('pw').value;
-            // パスワードが「1225」なら次へ
-            if (pw === "1225") {
-                document.getElementById('step1').classList.add('hidden');
-                document.getElementById('step2').classList.remove('hidden');
+            // 指定されたパスワード「11090202」
+            if (pw === "11090202") {
+                nextStep(2);
             } else {
-                alert("パスワードがちがうみたいだよ…！");
+                alert("パスワードがちがうよ！BANされるかも！？（冗談だよ）");
             }
         }
-        function showStep3() {
+
+        function nextStep(stepNum) {
+            // 全てのステップを隠す
+            document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            // 指定のステップだけ表示
+            document.getElementById('step' + stepNum).classList.remove('hidden');
+        }
+
+        function finish() {
+            const goal = document.getElementById('goal').value;
+            if (goal.trim() === "") {
+                alert("目標を書いて教えてね！");
+            } else {
+                nextStep(4);
+            }
         }
     </script>
 </body>
