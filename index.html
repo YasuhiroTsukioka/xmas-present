@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>龍之介専用・クリスマスミッション</title>
     <style>
-        /* 背景をクリスマス風（雪の夜）に */
         body { 
             text-align: center; 
             font-family: 'Helvetica Neue', Arial, sans-serif; 
-            background-color: #013220; /* 深いグリーン */
+            background-color: #013220; 
             background-image: radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px; /* 雪が降っているような背景 */
+            background-size: 50px 50px; 
             padding: 50px 20px; 
             color: #333; 
         }
@@ -21,7 +20,7 @@
             background: rgba(255, 255, 255, 0.95); 
             padding: 30px; 
             border-radius: 20px; 
-            border: 5px solid #d42426; /* 赤い縁取り */
+            border: 5px solid #d42426; 
             box-shadow: 0 0 20px rgba(255,255,255,0.5); 
             max-width: 500px; 
             margin: 0 auto; 
@@ -60,9 +59,12 @@
 
         <div id="step3" class="hidden">
             <h2>最後に将来の目標を教えてね!!</h2>
-            <textarea id="goal" placeholder="ここに目標を書いてね"></textarea>
-            <br>
-            <button onclick="finish()">送信してプレゼントをチェック！</button>
+            <form id="google-form" target="hidden_iframe">
+                <textarea id="goal" name="entry.1492576188" placeholder="ここに目標を書いてね"></textarea>
+                <br>
+                <button type="button" onclick="finish()">送信してプレゼントをチェック！</button>
+            </form>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
         </div>
 
         <div id="step4" class="hidden">
@@ -78,7 +80,6 @@
     <script>
         function checkPassword() {
             const pw = document.getElementById('pw').value;
-            // 指定されたパスワード「11090202」
             if (pw === "11090202") {
                 nextStep(2);
             } else {
@@ -87,11 +88,10 @@
         }
 
         function nextStep(stepNum) {
-            // 全てのステップを隠す
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step3').classList.add('hidden');
-            // 指定のステップだけ表示
+            document.getElementById('step4').classList.add('hidden');
             document.getElementById('step' + stepNum).classList.remove('hidden');
         }
 
@@ -99,11 +99,21 @@
             const goal = document.getElementById('goal').value;
             if (goal.trim() === "") {
                 alert("目標を書いて教えてね！");
-            } else {
-                nextStep(4);
+                return;
             }
+
+            // 送信先URLの設定（/formResponseに書き換え済み）
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScJ9e_esb7X_R4Xue6M41ysjZTdMF9uCyhepE_UH4nfLWXEZQ/formResponse";
+            const form = document.getElementById('google-form');
+            form.action = formUrl;
+            form.method = "POST";
+            
+            // フォームを送信
+            form.submit();
+            
+            // 画面を切り替える
+            nextStep(4);
         }
     </script>
 </body>
 </html>
-
