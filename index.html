@@ -1,0 +1,51 @@
+!DOCTYPE html
+html lang=ja
+head
+    meta charset=UTF-8
+    meta name=viewport content=width=device-width, initial-scale=1.0
+    titleクリスマス・ミッションtitle
+    style
+        body { text-align center; font-family sans-serif; background-color #f0f8ff; padding-top 50px; }
+        .hidden { display none; }
+        button { padding 10px 20px; font-size 1.2rem; cursor pointer; }
+        input { padding 10px; font-size 1.2rem; margin-bottom 20px; }
+    style
+head
+body
+
+    div id=step1
+        h1🎄 クリスマス・ミッション 🎁h1
+        pパパからのメッセージ：パスワードを入れてねp
+        input type=text id=pw placeholder=パスワードは？
+        br
+        button onclick=checkPassword()送信button
+    div
+
+    div id=step2 class=hidden
+        h2第1問：プログラミングで、同じことを繰り返すことを何ていう？h2
+        button onclick=alert('正解！'); showStep3()ループ（Loop）button
+        button onclick=alert('おしい！もう一回！')ジャンプ（Jump）button
+    div
+
+    div id=step3 class=hidden
+        h1🎉 クリア！おめでとう！h1
+        pプレゼントは…テレビの裏をのぞいてみてね！p
+    div
+
+    script
+        function checkPassword() {
+            const pw = document.getElementById('pw').value;
+            if (pw === 1225) {  ここにパスワードを設定
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+            } else {
+                alert(パスワードがちがうよ！);
+            }
+        }
+        function showStep3() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+        }
+    script
+body
+html
