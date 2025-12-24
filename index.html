@@ -59,12 +59,9 @@
 
         <div id="step3" class="hidden">
             <h2>最後に将来の目標を教えてね!!</h2>
-            <form id="google-form" target="hidden_iframe">
-                <textarea id="goal" name="entry.1492576188" placeholder="ここに目標を書いてね"></textarea>
-                <br>
-                <button type="button" onclick="finish()">送信してプレゼントをチェック！</button>
-            </form>
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+            <textarea id="goal" placeholder="ここに目標を書いてね"></textarea>
+            <br>
+            <button type="button" onclick="finish()">送信してプレゼントをチェック！</button>
         </div>
 
         <div id="step4" class="hidden">
@@ -73,7 +70,7 @@
             <hr>
             <h2>🎁 プレゼントの場所 🎁</h2>
             <p style="font-size: 1.8rem; font-weight: bold; color: #d42426;">「3Fの22巻にかくしてあるよ!!」</p>
-            <p>さがしてみてね！</p>
+            <p>をさがしてみてね！</p>
         </div>
     </div>
 
@@ -95,26 +92,32 @@
             document.getElementById('step' + stepNum).classList.remove('hidden');
         }
 
-        function finish() {
+        async function finish() {
             const goal = document.getElementById('goal').value;
             if (goal.trim() === "") {
                 alert("目標を書いて教えてね！");
                 return;
             }
 
-            // 送信先URLの設定（/formResponseに書き換え済み）
+            // 正しい送信先URLと正しいID(1778439662)を設定
             const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScJ9e_esb7X_R4Xue6M41ysjZTdMF9uCyhepE_UH4nfLWXEZQ/formResponse";
-            const form = document.getElementById('google-form');
-            form.action = formUrl;
-            form.method = "POST";
-            
-            // フォームを送信
-            form.submit();
-            
-            // 画面を切り替える
+            const params = new URLSearchParams();
+            params.append("entry.1778439662", goal); // 取得した正しいID
+
+            // 送信処理（fetchを使用）
+            try {
+                await fetch(formUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: params
+                });
+            } catch (e) {
+                // 通信エラーでも画面は進める
+            }
+
             nextStep(4);
         }
     </script>
 </body>
 </html>
-
