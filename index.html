@@ -59,9 +59,15 @@
 
         <div id="step3" class="hidden">
             <h2>最後に将来の目標を教えてね!!</h2>
-            <textarea id="goal" placeholder="ここに目標を書いてね"></textarea>
-            <br>
-            <button type="button" onclick="finish()">送信してプレゼントをチェック！</button>
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLScJ9e_esb7X_R4Xue6M41ysjZTdMF9uCyhepE_UH4nfLWXEZQ/formResponse" 
+                  method="POST" 
+                  target="hidden_iframe" 
+                  id="real-form">
+                <textarea name="entry.1778439662" id="goal" placeholder="ここに目標を書いてね"></textarea>
+                <br>
+                <button type="button" onclick="submitAndNext()">送信してプレゼントをチェック！</button>
+            </form>
+            <iframe name="hidden_iframe" style="display:none;"></iframe>
         </div>
 
         <div id="step4" class="hidden">
@@ -80,45 +86,26 @@
             if (pw === "11090202") {
                 nextStep(2);
             } else {
-                alert("パスワードがちがうよ！BANされるかも！？（冗談だよ）");
+                alert("パスワードがちがうよ！");
             }
         }
 
         function nextStep(stepNum) {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step4').classList.add('hidden');
+            document.querySelectorAll('.card > div').forEach(div => div.classList.add('hidden'));
             document.getElementById('step' + stepNum).classList.remove('hidden');
         }
 
-        async function finish() {
+        function submitAndNext() {
             const goal = document.getElementById('goal').value;
             if (goal.trim() === "") {
                 alert("目標を書いて教えてね！");
                 return;
             }
-
-            // 正しい送信先URLと正しいID(1778439662)を設定
-            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScJ9e_esb7X_R4Xue6M41ysjZTdMF9uCyhepE_UH4nfLWXEZQ/formResponse";
-            const params = new URLSearchParams();
-            params.append("entry.1778439662", goal); // 取得した正しいID
-
-            // 送信処理（fetchを使用）
-            try {
-                await fetch(formUrl, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: params
-                });
-            } catch (e) {
-                // 通信エラーでも画面は進める
-            }
-
+            // フォームを実際に送信する
+            document.getElementById('real-form').submit();
+            // 画面を切り替える
             nextStep(4);
         }
     </script>
 </body>
 </html>
-
