@@ -1,51 +1,61 @@
-!DOCTYPE html
-html lang=ja
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titleクリスマス・ミッションtitle
-    style
-        body { text-align center; font-family sans-serif; background-color #f0f8ff; padding-top 50px; }
-        .hidden { display none; }
-        button { padding 10px 20px; font-size 1.2rem; cursor pointer; }
-        input { padding 10px; font-size 1.2rem; margin-bottom 20px; }
-    style
-head
-body
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クリスマス・ミッション</title>
+    <style>
+        body { text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f0f8ff; padding: 50px 20px; color: #333; }
+        h1 { color: #d42426; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; }
+        .hidden { display: none; }
+        button { background-color: #2e7d32; color: white; border: none; padding: 12px 24px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; margin: 10px; }
+        button:hover { background-color: #1b5e20; }
+        input { padding: 12px; font-size: 1.2rem; border: 2px solid #ccc; border-radius: 5px; width: 80%; max-width: 300px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
 
-    div id=step1
-        h1🎄 クリスマス・ミッション 🎁h1
-        pパパからのメッセージ：パスワードを入れてねp
-        input type=text id=pw placeholder=パスワードは？
-        br
-        button onclick=checkPassword()送信button
-    div
+    <div class="card">
+        <div id="step1">
+            <h1>🎄 クリスマス・ミッション 🎁</h1>
+            <p>パパからのメッセージ：<br><strong>秘密のパスワード</strong>を入力してね</p>
+            <input type="text" id="pw" placeholder="数字4ケタ">
+            <br>
+            <button onclick="checkPassword()">ミッション開始！</button>
+        </div>
 
-    div id=step2 class=hidden
-        h2第1問：プログラミングで、同じことを繰り返すことを何ていう？h2
-        button onclick=alert('正解！'); showStep3()ループ（Loop）button
-        button onclick=alert('おしい！もう一回！')ジャンプ（Jump）button
-    div
+        <div id="step2" class="hidden">
+            <h2>第1問</h2>
+            <p>プログラミングで、同じことを<br>何度もくり返すことを何ていうかな？</p>
+            <button onclick="alert('正解！すごい！'); showStep3()">ループ（Loop）</button>
+            <button onclick="alert('おしい！もう一回考えてみて！')">ジャンプ（Jump）</button>
+        </div>
 
-    div id=step3 class=hidden
-        h1🎉 クリア！おめでとう！h1
-        pプレゼントは…テレビの裏をのぞいてみてね！p
-    div
+        <div id="step3" class="hidden">
+            <h1>🎉 ミッションクリア！</h1>
+            <h2>おめでとう！</h2>
+            <p>プレゼントの場所は・・・</p>
+            <p style="font-size: 1.5rem; font-weight: bold; color: #d42426;">「テレビのうら」</p>
+            <p>をのぞいてみてね！</p>
+        </div>
+    </div>
 
-    script
+    <script>
         function checkPassword() {
             const pw = document.getElementById('pw').value;
-            if (pw === 1225) {  ここにパスワードを設定
+            // パスワードが「1225」なら次へ
+            if (pw === "1225") {
                 document.getElementById('step1').classList.add('hidden');
                 document.getElementById('step2').classList.remove('hidden');
             } else {
-                alert(パスワードがちがうよ！);
+                alert("パスワードがちがうみたいだよ…！");
             }
         }
         function showStep3() {
             document.getElementById('step2').classList.add('hidden');
             document.getElementById('step3').classList.remove('hidden');
         }
-    script
-body
-html
+    </script>
+</body>
+</html>
